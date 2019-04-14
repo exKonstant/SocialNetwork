@@ -30,13 +30,7 @@ namespace SocialNetwork.BLL.Messages
         {
             var message = await _unitOfWork.Messages.GetAsync(id);
             return _mapper.Map<MessageDto>(message);
-        }
-
-        public async Task<IEnumerable<MessageDto>> GetByConversationAsync(int conversationId)
-        {
-            var messages = await _unitOfWork.Messages.GetByConversation(conversationId).ToListAsync();
-            return _mapper.Map<IEnumerable<MessageDto>>(messages);
-        }
+        }        
 
         public async Task<int> AddAsync(MessageDtoForCreate messageDtoForCreate)
         {
@@ -48,6 +42,12 @@ namespace SocialNetwork.BLL.Messages
             {
                 return -2;
             }
+            if (!await _unitOfWork.UserConversations.ContainsEntityWithId(messageDtoForCreate.UserId,
+                messageDtoForCreate.ConversationId))
+            {
+                return -4;
+            }
+
             if (string.IsNullOrEmpty(messageDtoForCreate.Text))
             {
                 return -3;

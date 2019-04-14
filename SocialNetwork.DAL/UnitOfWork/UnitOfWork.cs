@@ -6,6 +6,7 @@ using SocialNetwork.DAL.Repositories.UserFriendRepository;
 using SocialNetwork.DAL.Repositories.UserRepository;
 using System;
 using System.Threading.Tasks;
+using SocialNetwork.DAL.Repositories.UserConversationRepository;
 
 namespace SocialNetwork.DAL.UnitOfWork
 {
@@ -66,6 +67,20 @@ namespace SocialNetwork.DAL.UnitOfWork
                     _userFriendRepository = new UserFriendRepository(_dbContext);
                 }
                 return _userFriendRepository;
+            }
+
+        }
+
+        private IUserConversationRepository _userConversationRepository;
+        public IUserConversationRepository UserConversations
+        {
+            get
+            {
+                if (_userConversationRepository == null)
+                {
+                    _userConversationRepository = new UserConversationRepository(_dbContext);
+                }
+                return _userConversationRepository;
             }
 
         }

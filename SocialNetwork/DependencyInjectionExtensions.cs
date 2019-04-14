@@ -11,6 +11,7 @@ using SocialNetwork.API.Services.FriendRequests;
 using SocialNetwork.API.Services.Messages;
 using SocialNetwork.API.Services.Users;
 using SocialNetwork.Authentification;
+using SocialNetwork.Authentification.Services;
 using SocialNetwork.BLL.Conversations;
 using SocialNetwork.BLL.FriendRequests;
 using SocialNetwork.BLL.Messages;
@@ -30,19 +31,27 @@ namespace SocialNetwork.API
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            return services;
+        }
+
+        public static IServiceCollection ResolveServicesDependencies(this IServiceCollection services)
+        {
             services.AddScoped<IMessageService, MessageService>();
             services.AddScoped<IConversationService, ConversationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFriendRequestService, FriendRequestService>();
-            
+
             services.AddScoped<IMessageResponseCreator, MessageResponseCreator>();
             services.AddScoped<IConversationResponseCreator, ConversationResponseCreator>();
             services.AddScoped<IUserResponseCreator, UserResponseCreator>();
             services.AddScoped<IFriendRequestResponseCreator, FriendRequestResponseCreator>();
 
+            services.AddScoped<IAuthentificationService, AuthentificationService>();
+
             return services;
         }
-        public static IServiceCollection RegisterSwagger(this IServiceCollection services)
+
+    public static IServiceCollection RegisterSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
@@ -51,8 +60,8 @@ namespace SocialNetwork.API
                     Title = "SocialNetwork",
                     Version = "v1"
                 });
-                //c.IncludeXmlComments(
-                //    @"bin\Debug\netcoreapp2.0\SocialNetwork.API.xml");
+                c.IncludeXmlComments(
+                    @"bin\Debug\netcoreapp2.0\SocialNetwork.API.xml");
             });
 
             return services;

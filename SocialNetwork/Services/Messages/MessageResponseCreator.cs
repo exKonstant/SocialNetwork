@@ -17,6 +17,13 @@ namespace SocialNetwork.API.Services.Messages
         {
             _mapper = mapper;
         }
+
+        public IActionResult ResponseForGetAll(IEnumerable<MessageDto> messageDtos)
+        {
+            var messageModels = _mapper.Map<IEnumerable<MessageModel>>(messageDtos);
+            return new OkObjectResult(messageModels);
+        }
+
         public IActionResult ResponseForGet(MessageDto messageDto)
         {
             if (messageDto == null)
@@ -36,6 +43,8 @@ namespace SocialNetwork.API.Services.Messages
                     return new BadRequestObjectResult("Invalid Conversation Id.");
                 case -3:
                     return new BadRequestObjectResult("Invalid text.");
+                case -4:
+                    return new BadRequestObjectResult("Invalid user Id and conversation Id.");
                 default:
                     return new CreatedAtRouteResult("GetMessage", new { Id = statusCode }, messageDtoForCreate);
             }

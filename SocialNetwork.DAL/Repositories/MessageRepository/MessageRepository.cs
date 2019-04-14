@@ -43,15 +43,7 @@ namespace SocialNetwork.DAL.Repositories.MessageRepository
                 .Include(m => m.Conversation)
                 .Include(m => m.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
-        }
-
-        public IQueryable<Message> GetByConversation(int conversationId)
-        {
-            return _messages
-                .Include(m => m.Conversation)
-                .Include(m => m.User)
-                .Where(m => m.ConversationId == conversationId); /*.OrderBy(m => m.DateSent)*/
-        }
+        }        
 
         public override void Update(Message entity)
         {

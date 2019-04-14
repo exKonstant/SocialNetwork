@@ -91,27 +91,27 @@ namespace SocialNetwork.DAL.EF
             modelBuilder.Entity<Conversation>().HasData(
                 new Conversation
                 {
-                    ConversationName = "Work",
+                    Name = "Work",
                     Id = 1
                 },
                 new Conversation
                 {
-                    ConversationName = "Study",
+                    Name = "Study",
                     Id = 2
                 },
                 new Conversation
                 {
-                    ConversationName = "MusicGroup",
+                    Name = "MusicGroup",
                     Id = 3
                 },
                 new Conversation
                 {
-                    ConversationName = "University",
+                    Name = "University",
                     Id = 4
                 },
                 new Conversation
                 {
-                    ConversationName = "Friends",
+                    Name = "Friends",
                     Id = 5
                 });
             modelBuilder.Entity<UserConversation>().HasData(
@@ -122,13 +122,43 @@ namespace SocialNetwork.DAL.EF
                 },
                 new UserConversation
                 {
-                    ConversationId = 2,
+                    ConversationId = 1,
                     UserId = 2
+                },
+                new UserConversation
+                {
+                    ConversationId = 1,
+                    UserId = 3
+                },
+                new UserConversation
+                {
+                    ConversationId = 2,
+                    UserId = 4
+                },
+                new UserConversation
+                {
+                    ConversationId = 2,
+                    UserId = 5
+                },
+                new UserConversation
+                {
+                    ConversationId = 3,
+                    UserId = 1
                 },
                 new UserConversation
                 {
                     ConversationId = 3,
                     UserId = 3
+                },
+                new UserConversation
+                {
+                    ConversationId = 3,
+                    UserId = 5
+                },
+                new UserConversation
+                {
+                    ConversationId = 4,
+                    UserId = 2
                 },
                 new UserConversation
                 {
@@ -139,6 +169,11 @@ namespace SocialNetwork.DAL.EF
                 {
                     ConversationId = 5,
                     UserId = 5
+                },
+                new UserConversation
+                {
+                    ConversationId = 5,
+                    UserId = 1
                 });
             modelBuilder.Entity<FriendRequest>().HasData(
                 new FriendRequest
@@ -155,9 +190,15 @@ namespace SocialNetwork.DAL.EF
                 },
                 new FriendRequest
                 {
-                    ReceiverId = 4,
+                    ReceiverId = 3,
                     SenderId = 1,
-                    FriendRequestStatus = FriendRequestStatus.Awaiting
+                    FriendRequestStatus = FriendRequestStatus.Accepted
+                },
+                new FriendRequest
+                {
+                    ReceiverId = 2,
+                    SenderId = 5,
+                    FriendRequestStatus = FriendRequestStatus.Accepted
                 });
             modelBuilder.Entity<UserFriend>().HasData(
                 new UserFriend

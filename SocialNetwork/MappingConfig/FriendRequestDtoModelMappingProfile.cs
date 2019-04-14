@@ -14,6 +14,8 @@ namespace SocialNetwork.API.MappingConfig
         {
             CreateMap<FriendRequestDto, FriendRequestModel>();
             CreateMap<FriendRequestModel, FriendRequestDto>();
+            CreateMap<FriendRequestDtoForGet, FriendRequestGetModel>();
+            CreateMap<FriendRequestGetModel, FriendRequestDtoForGet>();
         }
     }
 }

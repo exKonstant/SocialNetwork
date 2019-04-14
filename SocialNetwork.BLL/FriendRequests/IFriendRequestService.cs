@@ -5,12 +5,11 @@ namespace SocialNetwork.BLL.FriendRequests
 {
     public interface IFriendRequestService
     {
-        Task<IEnumerable<FriendRequestDto>> GetAllAsync();
-        Task<IEnumerable<FriendRequestDto>> GetSenderRequestsAsync(int senderId);
-        Task<IEnumerable<FriendRequestDto>> GetReceiverRequestsAsync(int receiverId);
+        Task<IEnumerable<FriendRequestDtoForGet>> GetAllAsync();
+        Task<IEnumerable<FriendRequestDtoForGet>> GetSenderRequestsAsync(int senderId);
+        Task<IEnumerable<FriendRequestDtoForGet>> GetReceiverRequestsAsync(int receiverId);
         Task<int> Create(FriendRequestDto friendRequestDto);
-        Task<int> Accept(FriendRequestDto friendRequestDto);
-        Task<int> Decline(FriendRequestDto friendRequestDto);
-        Task<int> AddFriends(int senderId, int receiverId);
+        Task<int> Accept(int senderId, int receiverId);
+        Task<int> Decline(int senderId, int receiverId);
     }
 }

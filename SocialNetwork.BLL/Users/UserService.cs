@@ -7,6 +7,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.BLL.Conversations;
 using SocialNetwork.DAL.Entities;
+using SocialNetwork.DAL.Entities.Enums;
 using SocialNetwork.DAL.UnitOfWork;
 
 namespace SocialNetwork.BLL.Users
@@ -38,6 +39,12 @@ namespace SocialNetwork.BLL.Users
         {
             var friends = await _unitOfWork.UserFriends.GetByUser(userId).ToListAsync();
             return _mapper.Map<IEnumerable<UserDto>>(friends);
+        }
+
+        public async Task<IEnumerable<ConversationDto>> GetConversationsByUserAsync(int userId)
+        {
+            var conversations = await _unitOfWork.Users.GetConversationsByUser(userId).ToListAsync();
+            return _mapper.Map<IEnumerable<ConversationDto>>(conversations);
         }
 
         public async Task<int> AddAsync(UserDtoForCreate userDtoForCreate)
@@ -107,7 +114,8 @@ namespace SocialNetwork.BLL.Users
                 return -4;
             }
             _unitOfWork.UserFriends.Delete(userId, friendId);
-            _unitOfWork.UserFriends.Delete(friendId, userId);
+            _unitOfWork.UserFriends.Delete(friendId, userId);            
+
             await _unitOfWork.SaveChangesAsync();
             return 1;
         }

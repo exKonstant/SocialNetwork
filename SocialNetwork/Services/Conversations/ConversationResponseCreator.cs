@@ -6,8 +6,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.API.Models;
 using SocialNetwork.API.Models.Conversations;
+using SocialNetwork.API.Models.Users;
 using SocialNetwork.BLL.Conversations;
 using SocialNetwork.BLL.Messages;
+using SocialNetwork.BLL.Users;
 
 namespace SocialNetwork.API.Services.Conversations
 {
@@ -19,6 +21,25 @@ namespace SocialNetwork.API.Services.Conversations
         {
             _mapper = mapper;
         }
+
+        public IActionResult ResponseForGetAll(IEnumerable<ConversationDto> conversationDtos)
+        {
+            var conversationModels = _mapper.Map<IEnumerable<ConversationModel>>(conversationDtos);
+            return new OkObjectResult(conversationModels);
+        }
+
+        public IActionResult ResponseForGetMessages(IEnumerable<MessageDto> messageDtos)
+        {
+            var messageModels = _mapper.Map<IEnumerable<MessageModel>>(messageDtos);
+            return new OkObjectResult(messageModels);
+        }
+
+        public IActionResult ResponseForGetUsers(IEnumerable<UserDto> userDtos)
+        {
+            var userModels = _mapper.Map<IEnumerable<UserModel>>(userDtos);
+            return new OkObjectResult(userModels);
+        }
+
         public IActionResult ResponseForGet(ConversationDto conversationDto)
         {
             if (conversationDto == null)
@@ -28,6 +49,7 @@ namespace SocialNetwork.API.Services.Conversations
             var conversationModel = _mapper.Map<ConversationModel>(conversationDto);
             return new OkObjectResult(conversationModel);
         }
+
         public IActionResult ResponseForCreate(int statusCode, ConversationDtoForCreate conversationDtoForCreate)
         {
             switch (statusCode)
@@ -50,7 +72,7 @@ namespace SocialNetwork.API.Services.Conversations
             }
         }
 
-        public IActionResult ResponseForUpdate(int statusCode)
+        public IActionResult ResponseForUpdateAndAddUsers(int statusCode)
         {
             switch (statusCode)
             {
@@ -62,6 +84,8 @@ namespace SocialNetwork.API.Services.Conversations
                     return new BadRequestObjectResult("Invalid conversation id.");
                 case -4:
                     return new BadRequestObjectResult("Invalid user id.");
+                case -5:
+                    return new BadRequestObjectResult("Invalid user id and conversation id.");
                 default:
                     return new OkResult();
             }

@@ -36,8 +36,11 @@ namespace SocialNetwork.API
         {
             services.AddMvc().AddJsonOptions(opt =>
                 opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
             services.ResolveDalDependencies(Configuration.GetConnectionString("SocialNetwork"));
-            
+            services.ResolveServicesDependencies();
+            services.ResolveIdentityDependencies(Configuration.GetConnectionString("SocialNetworkAuthentication"));
+
             services.RegisterSwagger();
             services.AddAutoMapper();
         }
@@ -49,9 +52,12 @@ namespace SocialNetwork.API
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseAuthentication();
+
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Social Network API v1"));
+
             app.UseMvc();
             
         }

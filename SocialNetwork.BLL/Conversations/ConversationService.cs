@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using SocialNetwork.BLL.Messages;
+using SocialNetwork.BLL.Users;
 using SocialNetwork.DAL.Entities;
 using SocialNetwork.DAL.UnitOfWork;
 
@@ -33,9 +34,21 @@ namespace SocialNetwork.BLL.Conversations
             return _mapper.Map<ConversationDto>(conversation);
         }
 
+        public async Task<IEnumerable<UserDto>> GetUsersByConversationAsync(int conversationId)
+        {
+            var users = await _unitOfWork.Conversations.GetUsersByConversation(conversationId).ToListAsync();
+            return _mapper.Map<IEnumerable<UserDto>>(users);
+        }
+
+        public async Task<IEnumerable<MessageDto>> GetMessagesByConversationAsync(int conversationId)
+        {
+            var messages = await _unitOfWork.Conversations.GetMessagesByConversation(conversationId).ToListAsync();
+            return _mapper.Map<IEnumerable<MessageDto>>(messages);
+        }
+
         public async Task<int> AddAsync(ConversationDtoForCreate conversationDtoForCreate)
         {
-            if (string.IsNullOrEmpty(conversationDtoForCreate.ConversationName))
+            if (string.IsNullOrEmpty(conversationDtoForCreate.Name))
             {
                 return -1;
             }
@@ -47,7 +60,7 @@ namespace SocialNetwork.BLL.Conversations
 
         public async Task<int> UpdateAsync(ConversationDto conversationDto)
         {
-            if (string.IsNullOrEmpty(conversationDto.ConversationName))
+            if (string.IsNullOrEmpty(conversationDto.Name))
             {
                 return -1;
             }
@@ -75,17 +88,22 @@ namespace SocialNetwork.BLL.Conversations
             return 1;
         }
 
-        public async Task<int> UpdateUsersAsync(int id, int userId)
+        public async Task<int> AddUsersAsync(int conversationId, int userId)
         {
-            if (!await _unitOfWork.Conversations.ContainsEntityWithId(id))
+            if (!await _unitOfWork.Conversations.ContainsEntityWithId(conversationId))
             {
                 return -3;
             }
-            if (!await _unitOfWork.Users.ContainsEntityWithId(id))
+            if (!await _unitOfWork.Users.ContainsEntityWithId(userId))
             {
                 return -4;
             }
-            var conversation = await _unitOfWork.Conversations.GetAsync(id);
+            if (await _unitOfWork.UserConversations.ContainsEntityWithId(userId, conversationId))
+            {
+                return -5;
+            }
+            
+            var conversation = await _unitOfWork.Conversations.GetAsync(conversationId);
             conversation.UserConversations.Add(new UserConversation { UserId = userId });
             _unitOfWork.Conversations.Update(conversation);
             await _unitOfWork.SaveChangesAsync();

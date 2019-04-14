@@ -6,6 +6,6 @@ namespace SocialNetwork.BLL.Conversations
 {
     public class ConversationDtoForCreate
     {
-        public string ConversationName { get; set; }
+        public string Name { get; set; }
     }
 }

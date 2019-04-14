@@ -9,6 +9,7 @@ namespace SocialNetwork.BLL.Users
         Task<IEnumerable<UserDto>> GetAllAsync();
         Task<UserDto> GetAsync(int id);
         Task<IEnumerable<UserDto>> GetFriendsAsync(int userId);
+        Task<IEnumerable<ConversationDto>> GetConversationsByUserAsync(int userId);
         Task<int> AddAsync(UserDtoForCreate userDtoForCreate);
         Task<int> UpdateAsync(UserDto userDto);
         Task<int> DeleteAsync(int id);

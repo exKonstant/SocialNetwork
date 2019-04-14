@@ -7,6 +7,6 @@ namespace SocialNetwork.API.Models.Conversations
 {
     public class ConversationAddOrUpdateModel
     {
-        public string ConversationName { get; set; }
+        public string Name { get; set; }
     }
 }

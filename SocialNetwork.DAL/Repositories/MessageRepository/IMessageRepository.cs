@@ -4,7 +4,6 @@ using SocialNetwork.DAL.Entities;
 namespace SocialNetwork.DAL.Repositories.MessageRepository
 {
     public interface IMessageRepository : IRepository<Message>
-    {
-        IQueryable<Message> GetByConversation(int conversationId);
+    {      
     }
 }

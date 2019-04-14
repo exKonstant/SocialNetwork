@@ -7,6 +7,6 @@ namespace SocialNetwork.BLL.Conversations
     public class ConversationDto
     {
         public int Id { get; set; }
-        public string ConversationName { get; set; }
+        public string Name { get; set; }
     }
 }

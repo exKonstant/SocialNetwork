@@ -11,7 +11,7 @@ namespace SocialNetwork.Authentification
         public static async Task InitializeAsync(UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
             var adminEmail = "admin@gmail.com";
-            var adminPassword = "admin";
+            var adminPassword = "Qwerty123#";
             if (await roleManager.FindByNameAsync("admin") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("admin"));

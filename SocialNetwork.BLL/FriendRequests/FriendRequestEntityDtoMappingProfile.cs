@@ -12,6 +12,8 @@ namespace SocialNetwork.BLL.FriendRequests
         {
             CreateMap<FriendRequestDto, FriendRequest>();
             CreateMap<FriendRequest, FriendRequestDto>();
+            CreateMap<FriendRequestDtoForGet, FriendRequest>();
+            CreateMap<FriendRequest, FriendRequestDtoForGet>();
         }
     }
 }

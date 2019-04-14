@@ -45,13 +45,17 @@ namespace SocialNetwork.DAL.Repositories.ConversationRepository
                 .FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        //public async IQueryable<Conversation> GetByUserAsync(int userId)
-        //{
-        //    return await _conversations
-        //        .Include(c => c.Messages)
-        //        .Include(c => c.UserConversations)
-        //        .Where();
-        //}
+        public IQueryable<User> GetUsersByConversation(int conversationId)
+        {
+            return _conversations.SelectMany(u => u.UserConversations.Where(uc => uc.ConversationId == conversationId).Select(uc => uc.User));
+        }
+
+        public IQueryable<Message> GetMessagesByConversation(int conversationId)
+        {
+            return _conversations.SelectMany(c => c.Messages.Where(m => m.ConversationId == conversationId));
+            /*.OrderBy(m => m.DateSent)*/
+        }
+
         public override void Update(Conversation entity)
         {
             _conversations.Update(entity);

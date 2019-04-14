@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 using SocialNetwork.DAL.EF;
 using SocialNetwork.DAL.Entities;
 using System.Linq;
@@ -45,6 +46,10 @@ namespace SocialNetwork.DAL.Repositories.UserRepository
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 
+        public IQueryable<Conversation> GetConversationsByUser(int userId)
+        {
+            return _users.SelectMany(u => u.UserConversations.Where(uc => uc.UserId == userId).Select(uc => uc.Conversation));
+        }
 
         public override void Update(User entity)
         {

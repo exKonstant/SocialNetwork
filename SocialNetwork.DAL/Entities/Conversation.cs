@@ -6,7 +6,7 @@ namespace SocialNetwork.DAL.Entities
     {
         public ICollection<Message> Messages { get; set; }
         public ICollection<UserConversation> UserConversations { get; set; }
-        public string ConversationName { get; set; }
+        public string Name { get; set; }
         
 
     }

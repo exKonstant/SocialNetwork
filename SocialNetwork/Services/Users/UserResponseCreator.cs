@@ -20,6 +20,13 @@ namespace SocialNetwork.API.Services.Users
         {
             _mapper = mapper;
         }
+
+        public IActionResult ResponseForGetAllAndGetFriends(IEnumerable<UserDto> userDtos)
+        {            
+            var userModels = _mapper.Map<IEnumerable<UserModel>>(userDtos);
+            return new OkObjectResult(userModels);
+        }
+
         public IActionResult ResponseForGet(UserDto userDto)
         {
             if (userDto == null)
@@ -29,6 +36,13 @@ namespace SocialNetwork.API.Services.Users
             var userModel = _mapper.Map<UserModel>(userDto);
             return new OkObjectResult(userModel);
         }
+
+        public IActionResult ResponseForGetConversations(IEnumerable<ConversationDto> conversationDto)
+        {
+            var conversationModels = _mapper.Map<IEnumerable<ConversationModel>>(conversationDto);
+            return new OkObjectResult(conversationModels);
+        }
+
         public IActionResult ResponseForCreate(int statusCode, UserDtoForCreate userDtoForCreate)
         {
             switch (statusCode)

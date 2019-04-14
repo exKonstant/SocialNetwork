@@ -24,29 +24,40 @@ namespace SocialNetwork.API.Controllers
             _mapper = mapper; 
             _messageResponseCreator = messageResponseCreator;
         }
+
+        /// <summary>
+        /// Gets all messages.
+        /// </summary>
+        /// <returns>Returns all messages</returns>
+        /// <response code="200">Always</response>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var messageDtos = await _messageService.GetAllAsync();
-            return Ok(_mapper.Map<IEnumerable<MessageModel>>(messageDtos));
+            return _messageResponseCreator.ResponseForGetAll(messageDtos);
         }
 
+        /// <summary>
+        /// Gets message by id.
+        /// </summary>
+        /// <param name="id">Message id</param>
+        /// <returns>Returns message by id</returns>
+        /// <response code="200">If the item exists</response>
+        /// <response code="404">If the item is not found</response>
         [HttpGet("{id}", Name = "GetMessage")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(404)]
         public async Task<IActionResult> Get(int id)
         {
             var messageDto = await _messageService.GetAsync(id);
             return _messageResponseCreator.ResponseForGet(messageDto);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetByConversation(int conversationId)
-        {
-            var messageDtos = await _messageService.GetByConversationAsync(conversationId);
-            return Ok(_mapper.Map<IEnumerable<MessageModel>>(messageDtos));
-        }
-
+        /// <summary>
+        /// Creates message.
+        /// </summary>
+        /// <param name="messageAddModel">Message model</param>
+        /// <returns>Returns route to created message</returns>
+        /// <response code="201">If the item created</response>
+        /// <response code="400">If the model is invalid or contains invalid data</response>
         [HttpPost]
         public async Task<IActionResult> Add([FromBody] MessageAddModel messageAddModel)
         {
@@ -60,6 +71,13 @@ namespace SocialNetwork.API.Controllers
             return _messageResponseCreator.ResponseForCreate(statuscode, messageDto);            
         }
 
+        /// <summary>
+        /// Updates message.
+        /// </summary>
+        /// <param name="id">Message id</param>
+        /// <param name="messageModel">Message model</param>
+        /// <response code="204">If the item updated</response>
+        /// <response code="400">If the model is invalid or contains invalid data</response>
         [HttpPut]
         public async Task<IActionResult> Update(int id, [FromBody] MessageUpdateModel messageModel)
         {
@@ -75,6 +93,12 @@ namespace SocialNetwork.API.Controllers
             return _messageResponseCreator.ResponseForUpdate(statuscode);
         }
 
+        /// <summary>
+        /// Deletes message.
+        /// </summary>
+        /// <param name="id">Message id</param>
+        /// <response code="204">If the item deleted</response>
+        /// <response code="404">If the item not found</response>
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

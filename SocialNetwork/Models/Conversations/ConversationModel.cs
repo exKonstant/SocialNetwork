@@ -8,6 +8,6 @@ namespace SocialNetwork.API.Models.Conversations
     public class ConversationModel
     {
         public int Id { get; set; }
-        public string ConversationName { get; set; }
+        public string Name { get; set; }
     }
 }
