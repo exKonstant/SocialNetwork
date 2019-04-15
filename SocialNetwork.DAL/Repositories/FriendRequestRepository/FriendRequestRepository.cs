@@ -26,6 +26,25 @@ namespace SocialNetwork.DAL.Repositories.FriendRequestRepository
             return await _friendRequests.AnyAsync(fr => fr.SenderId == senderId && fr.ReceiverId == receiverId);
         }
 
+        public async Task<bool> ContainsEntityWithSenderId(int senderId)
+        {
+            return await _friendRequests.AnyAsync(fr => fr.SenderId == senderId);
+        }
+        public async Task<bool> ContainsEntityWithReceiverId(int receiverId)
+        {
+            return await _friendRequests.AnyAsync(fr => fr.ReceiverId == receiverId);
+        }
+
+        public void DeleteBySender(IEnumerable<FriendRequest> friendRequests)
+        {
+            _friendRequests.RemoveRange(friendRequests);
+        }
+
+        public void DeleteByReceiver(IEnumerable<FriendRequest> friendRequests)
+        {            
+            _friendRequests.RemoveRange(friendRequests);
+        }
+
         public async Task<FriendRequest> GetAsync(int senderId, int receiverId)
         {
             return await _friendRequests

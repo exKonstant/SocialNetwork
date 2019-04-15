@@ -89,7 +89,21 @@ namespace SocialNetwork.BLL.Users
             if (!await _unitOfWork.Users.ContainsEntityWithId(id))
             {
                 return -1;
-            }            
+            }
+
+            if (await _unitOfWork.FriendRequests.ContainsEntityWithSenderId(id))
+            {
+                var friendRequestsS = _unitOfWork.FriendRequests.GetAll().Where(fr => fr.SenderId == id);
+                _unitOfWork.FriendRequests.DeleteBySender(friendRequestsS);
+            }
+            if (await _unitOfWork.FriendRequests.ContainsEntityWithReceiverId(id))
+            {
+                var friendRequestsR = _unitOfWork.FriendRequests.GetAll().Where(fr => fr.ReceiverId == id);
+                _unitOfWork.FriendRequests.DeleteByReceiver(friendRequestsR);
+            }
+
+            
+
             _unitOfWork.Users.Delete(id);
             await _unitOfWork.SaveChangesAsync();
             return 1;

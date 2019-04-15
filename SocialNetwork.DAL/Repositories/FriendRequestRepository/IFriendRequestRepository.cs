@@ -7,6 +7,10 @@ namespace SocialNetwork.DAL.Repositories.FriendRequestRepository
 {
     public interface IFriendRequestRepository
     {
+        void DeleteBySender(IEnumerable<FriendRequest> friendRequests);
+        void DeleteByReceiver(IEnumerable<FriendRequest> friendRequests);
+        Task<bool> ContainsEntityWithSenderId(int senderId);
+        Task<bool> ContainsEntityWithReceiverId(int receiverId);
         Task AddAsync(FriendRequest entity);
         IQueryable<FriendRequest> GetAll();
         Task<FriendRequest> GetAsync(int senderId, int receiverId);
